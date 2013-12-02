@@ -1,6 +1,4 @@
-package mware_lib.classes;
-
-import mware_lib.abstractClasses.NameService;
+package mware_lib;
 
 /**
  * core of the middleware:

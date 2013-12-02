@@ -1,7 +1,4 @@
-package cash_access.abstractClasses;
-
-import cash_access.exceptions.InvalidParamException;
-import cash_access.exceptions.OverdraftException;
+package cash_access;
 
 /**
  * TODO JavaDoc
