@@ -19,7 +19,7 @@ public abstract class ManagerImplBase implements Serializable {
         try {
             return (ManagerImplBase) o;
         } catch (ClassCastException cException) {
-            log.log(Level.SEVERE, "ClassCastException - ManagerImplBase", o);
+            log.log(Level.SEVERE, "ClassCastException - ManagerImplBase", cException);
             return null;
         }
     }

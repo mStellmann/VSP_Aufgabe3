@@ -26,7 +26,7 @@ public abstract class TransactionImplBase implements Serializable {
         try {
             return (TransactionImplBase) o;
         } catch (ClassCastException cException) {
-            log.log(Level.SEVERE, "ClassCastException - TransactionImplBase", o);
+            log.log(Level.SEVERE, "ClassCastException - TransactionImplBase", cException);
             return null;
         }
     }

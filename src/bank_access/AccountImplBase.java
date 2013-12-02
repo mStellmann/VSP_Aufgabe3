@@ -20,7 +20,7 @@ public abstract class AccountImplBase {
         try {
             return (AccountImplBase) o;
         } catch (ClassCastException cException) {
-            log.log(Level.SEVERE, "ClassCastException - AccountImplBase", o);
+            log.log(Level.SEVERE, "ClassCastException - AccountImplBase", cException);
             return null;
         }
     }
