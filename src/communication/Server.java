@@ -1,4 +1,4 @@
-package tcp_advanced;
+package communication;
 
 import java.io.IOException;
 import java.net.ServerSocket;
