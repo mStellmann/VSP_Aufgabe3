@@ -83,7 +83,7 @@ class NameServiceThread extends Thread {
 
             switch ((String) message[0]) {
                 case "REBIND":
-                    log.info("Message added to objectMap");
+                    log.info("RequestMessage added to objectMap");
                     NameService.addObjectToMap((String) message[2], message[1]);
                     connection.close();
                     break;

@@ -1,17 +1,17 @@
 package communication;
 
 /**
- * Message class for Request/Response protocol
+ * RequestMessage class for Request/Response protocol
  * User: Matthias Stellmann  Grzegorz Markiewicz
  * Date: 02.12.13
  * Time: 13:42
  */
-public class Message {
+public class RequestMessage {
 
     private String type;
     private String objectName;
     private String objectMethod;
-    private String[] methodParams;
+    private Object[] methodParams;
     private String status;
 
     /**
@@ -21,7 +21,7 @@ public class Message {
      * @param methodParams
      * @param status
      */
-    public Message(String type, String objectName, String objectMethod, String[] methodParams, String status) {
+    public RequestMessage(String type, String objectName, String objectMethod, Object[] methodParams, String status) {
         this.type = type;
         this.objectName = objectName;
         this.objectMethod = objectMethod;
@@ -53,7 +53,7 @@ public class Message {
     /**
      * Getter
      */
-    public String[] getMethodParams() {
+    public Object[] getMethodParams() {
         return methodParams;
     }
 

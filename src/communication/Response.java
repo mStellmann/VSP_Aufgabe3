@@ -1,8 +1,6 @@
 package communication;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,18 +14,26 @@ public class Response {
      */
     private static final Logger log = Logger.getLogger(Response.class.getName());
 
+    public static void sendSuccess(Connection connection, String objectName, String objectMethod, Object returnValue) {
+        send(connection, objectName, objectMethod, returnValue, "SUCCESS");
+    }
+
+    public static void sendError(Connection connection, String objectName, String objectMethod, Object returnValue) {
+        send(connection, objectName, objectMethod, returnValue, "ERROR");
+    }
+
     /**
      * Static method used to send a response to the client
      *
      * @param objectName   Name of the remote object
      * @param objectMethod Name of the method of the remote object
-     * @param methodParams The parameters for the method
+     * @param returnValue  The parameters for the method
      */
-    public static void send(String objectName, String objectMethod, String... methodParams) {
+    private static void send(Connection connection, String objectName, String objectMethod, Object returnValue, String status) {
 
         try {
-            Connection connection = comInit();
-            Message message = new Message("RESPONSE", objectName, objectMethod, methodParams, "SUCCESS");
+
+            ResponseMessage message = new ResponseMessage("RESPONSE", objectName, objectMethod, returnValue, status);
             connection.send(message.toString());
         } catch (IOException e) {
             log.log(Level.SEVERE, "IOException - Response - send()", e);
@@ -35,39 +41,28 @@ public class Response {
 
     }
 
-    /**
-     * Static method used to receive a message from the Client
-     *
-     * @return Message
-     */
-    public static Message receive() {
-        try {
-            Connection connection = comInit();
-            String messageString = connection.receive();
-            String[] stringAry = messageString.split(",");
-            List<String> proxyList = new ArrayList<String>();
-            for (int i = 3; i < stringAry.length - 1; i++) {
-                proxyList.add(stringAry[i]);
-            }
-            String[] methodStringAry = proxyList.toArray(new String[proxyList.size()]);
-            return new Message(stringAry[0], stringAry[1], stringAry[2], methodStringAry, stringAry[4]);
+//    /**
+//     * Static method used to receive a message from the Client
+//     *
+//     * @return RequestMessage
+//     */
+//    public static RequestMessage receive(Connection connection) {
+//        try {
+//            String messageString = connection.receive();
+//            String[] stringAry = messageString.split(",");
+//            List<String> proxyList = new ArrayList<String>();
+//            for (int i = 3; i < stringAry.length - 1; i++) {
+//                proxyList.add(stringAry[i]);
+//            }
+//            String[] methodStringAry = proxyList.toArray(new String[proxyList.size()]);
+//            return new RequestMessage(stringAry[0], stringAry[1], stringAry[2], methodStringAry, stringAry[4]);
+//
+//        } catch (IOException e) {
+//            log.log(Level.SEVERE, "IOException - Response - receive()", e);
+//            return null;
+//        }
+//
+//    }
 
-        } catch (IOException e) {
-            log.log(Level.SEVERE, "IOException - Response - receive()", e);
-            return null;
-        }
 
-    }
-
-    /**
-     * Private static method used to initialize the connection between the Server and the client
-     *
-     * @return Connection
-     * @throws IOException
-     */
-    private static Connection comInit() throws IOException {
-        Server theServer = new Server(14001);
-        // Auf Verbindungsanfrage warten.
-        return theServer.getConnection();
-    }
 }
