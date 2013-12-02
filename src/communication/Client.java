@@ -32,22 +32,4 @@ public class Client {
 		Out.close();
 		MySocket.close();
 	}
-
-	/**
-	 * @param args
-	 * @throws IOException
-	 * @throws UnknownHostException
-	 */
-	public static void main(String[] args) throws UnknownHostException, IOException {
-		// Verbindung aufbauen
-		Client myClient = new Client("localhost", 14001);
-
-		// Kommunikation
-		myClient.send("Knock, knock!");
-		System.out.println(myClient.receive());
-
-		// Verbindung schliessen
-		myClient.close();
-	}
-
 }

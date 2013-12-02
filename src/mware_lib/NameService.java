@@ -1,7 +1,9 @@
 package mware_lib;
 
+import java.io.IOException;
+
 /**
- * TODO JavaDoc
+ * Lokal nameservice
  */
 public abstract class NameService {
     /**
@@ -10,7 +12,7 @@ public abstract class NameService {
      * @param servant object, processing remote methods
      * @param name    a global unique name of the object / service
      */
-    public abstract void rebind(Object servant, String name);
+    public abstract void rebind(Object servant, String name) throws IOException;
 
     /**
      * Resolves name to a generic object reference
@@ -18,5 +20,10 @@ public abstract class NameService {
      * @param name
      * @return a generic object reference
      */
-    public abstract Object resolve(String name);
+    public abstract Object resolve(String name) throws IOException;
+
+    /**
+     * Close all open connections
+     */
+    public abstract void shutdown() throws IOException;
 }

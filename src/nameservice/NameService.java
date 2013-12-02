@@ -85,14 +85,17 @@ class NameServiceThread extends Thread {
                 case "REBIND":
                     log.info("Message added to objectMap");
                     NameService.addObjectToMap((String) message[2], message[1]);
+                    connection.close();
                     break;
                 case "RESOLVE":
                     log.info("Sending requested object to client");
                     Object requestedObject = NameService.getObjectFromMap((String) message[2]);
-                    connection.send("RESOLVE," + requestedObject + "," + message[2]);
+                    connection.send((String) requestedObject);
+                    connection.close();
                     break;
                 default:
                     log.log(Level.SEVERE, "Unknown message received");
+                    connection.close();
                     break;
             }
 
