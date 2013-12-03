@@ -87,18 +87,14 @@ class NameServiceThread extends Thread {
                     Object objectToSave = connection.receive();
                     log.info("RequestMessage added to objectMap");
                     NameService.addObjectToMap(message[1], objectToSave);
-                    connection.close();
                     break;
                 case "RESOLVE":
                     log.info("Sending requested object to client");
                     Object requestedObject = NameService.getObjectFromMap(message[1]);
 //                    connection.send(requestedObject);
-                    System.out.println("WAAHHAHA");
-                    connection.close();
                     break;
                 default:
                     log.log(Level.SEVERE, "Unknown message received");
-                    connection.close();
                     break;
             }
 

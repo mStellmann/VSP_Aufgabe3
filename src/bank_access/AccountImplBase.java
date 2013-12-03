@@ -21,7 +21,7 @@ public abstract class AccountImplBase implements Serializable {
 
     public static AccountImplBase narrowCast(Object o) {
         try {
-            return (AccountImplBase) o;
+            return new RemoteAccount(o);
         } catch (ClassCastException cException) {
             log.log(Level.SEVERE, "ClassCastException - AccountImplBase", cException);
             return null;

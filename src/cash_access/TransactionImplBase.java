@@ -25,7 +25,7 @@ public abstract class TransactionImplBase implements Serializable {
 
     public static TransactionImplBase narrowCast(Object o) {
         try {
-            return (TransactionImplBase) o;
+            return new RemoteTransaction(o);
         } catch (ClassCastException cException) {
             log.log(Level.SEVERE, "ClassCastException - TransactionImplBase", cException);
             return null;

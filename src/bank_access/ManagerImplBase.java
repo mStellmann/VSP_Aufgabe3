@@ -19,7 +19,7 @@ public abstract class ManagerImplBase implements Serializable {
 
     public static ManagerImplBase narrowCast(Object o) {
         try {
-            return (ManagerImplBase) o;
+            return new RemoteManager(o);
         } catch (ClassCastException cException) {
             log.log(Level.SEVERE, "ClassCastException - ManagerImplBase", cException);
             return null;
