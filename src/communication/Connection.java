@@ -1,18 +1,16 @@
 package communication;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
 
 public class Connection {
     private BufferedReader in;
-    private OutputStream out;
+    private ObjectInputStream inObject;
+    private DataOutputStream out;
 
     public Connection(Socket mySock) throws IOException {
         in = new BufferedReader(new InputStreamReader(mySock.getInputStream()));
-        out = mySock.getOutputStream();
+        out = new DataOutputStream(mySock.getOutputStream());
     }
 
     public String receive() throws IOException {
@@ -20,7 +18,7 @@ public class Connection {
     }
 
     public void send(String message) throws IOException {
-        out.write((message + "\n").getBytes());
+        out.writeBytes(message + '\n');
     }
 
     public void close() throws IOException {

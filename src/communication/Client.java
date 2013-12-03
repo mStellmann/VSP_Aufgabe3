@@ -1,35 +1,32 @@
 package communication;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class Client {
-	private Socket MySocket;
-	private BufferedReader In;
-	private OutputStream Out;
-
+	private Socket mySocket;
+	private BufferedReader in;
+	private DataOutputStream out;
+	
 	public Client(String host, int port) throws UnknownHostException, IOException {
-		MySocket = new Socket(host, port);
-
-		In = new BufferedReader(new InputStreamReader(MySocket.getInputStream()));
-		Out = MySocket.getOutputStream();
+		mySocket = new Socket(host, port);
+		
+		in = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
+        out = new DataOutputStream(mySocket.getOutputStream());
 	}
-
+	
 	public String receive() throws IOException {
-		return In.readLine();
+		return in.readLine();
 	}
-
+	
 	public void send(String message) throws IOException {
-		Out.write((message + "\n").getBytes());
+		out.writeBytes(message + '\n');
 	}
-
+	
 	public void close() throws IOException {
-		In.close();
-		Out.close();
-		MySocket.close();
+		in.close();
+		out.close();
+		mySocket.close();
 	}
 }

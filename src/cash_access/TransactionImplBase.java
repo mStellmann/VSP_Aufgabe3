@@ -12,6 +12,7 @@ public abstract class TransactionImplBase implements Serializable {
      * Logger
      */
     private static final Logger log = Logger.getLogger(TransactionImplBase.class.getName());
+    private static final long serialVersionUID = 9217266105469926511L;
 
     public abstract void deposit(String accountId, double amount)
             throws InvalidParamException;

@@ -79,18 +79,21 @@ class NameServiceThread extends Thread {
     @Override
     public void run() {
         try {
-            Object[] message = connection.receive().split(",");
+            String[] message = ((String) connection.receive()).split(",");
 
-            switch ((String) message[0]) {
+            switch (message[0]) {
                 case "REBIND":
+                    connection.send("OK");
+                    Object objectToSave = connection.receive();
                     log.info("RequestMessage added to objectMap");
-                    NameService.addObjectToMap((String) message[2], message[1]);
+                    NameService.addObjectToMap(message[1], objectToSave);
                     connection.close();
                     break;
                 case "RESOLVE":
                     log.info("Sending requested object to client");
-                    Object requestedObject = NameService.getObjectFromMap((String) message[2]);
-                    connection.send((String) requestedObject);
+                    Object requestedObject = NameService.getObjectFromMap(message[1]);
+//                    connection.send(requestedObject);
+                    System.out.println("WAAHHAHA");
                     connection.close();
                     break;
                 default:

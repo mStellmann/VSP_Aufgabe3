@@ -9,9 +9,11 @@ import java.util.logging.Logger;
  */
 public abstract class ManagerImplBase implements Serializable {
     /**
-    * Logger
-    */
+     * Logger
+     */
     private static final Logger log = Logger.getLogger(ManagerImplBase.class.getName());
+    private static final long serialVersionUID = 164997905243190494L;
+
 
     public abstract String createAccount(String owner, String branch);
 

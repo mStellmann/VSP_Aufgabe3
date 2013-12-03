@@ -3,6 +3,7 @@ package mware_lib;
 import communication.Client;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 class NameServiceImpl extends NameService {
 
@@ -13,13 +14,16 @@ class NameServiceImpl extends NameService {
     }
 
     @Override
-    public void rebind(Object servant, String name) throws IOException {
-        client.send("REBIND," + servant + "," + name);
+    public void rebind(Object servant, String name) throws IOException, ClassNotFoundException {
+        client.send("REBIND," + name);
+        if (client.receive().equals("OK")) {
+            System.out.println("HAHHAHAHAHAHAHAHAHH");
+        }
     }
 
     @Override
-    public Object resolve(String name) throws IOException {
-        client.send("RESOLVE,null," + name);
+    public Object resolve(String name) throws IOException, ClassNotFoundException {
+        client.send("RESOLVE," + name);
         return client.receive();
     }
 
