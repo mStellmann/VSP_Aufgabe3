@@ -12,11 +12,11 @@ import java.util.logging.Logger;
 /**
  * Global nameservice
  */
-public class NameService {
+public class GlobalNameService {
     /**
      * Contains every binded object.
      */
-    private static Map<String, Object> objectMap;
+    private static Map<String, HostReference> objectMap;
 
     /**
      * Serverlistenport
@@ -26,7 +26,7 @@ public class NameService {
     /**
      * Logger
      */
-    private static final Logger log = Logger.getLogger(NameService.class.getName());
+    private static final Logger log = Logger.getLogger(GlobalNameService.class.getName());
 
     /**
      * Start a NameService-Server
@@ -35,20 +35,20 @@ public class NameService {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-        objectMap = new HashMap<String, Object>();
+        objectMap = new HashMap<>();
 
         Server server = new Server(LISTENPORT);
         while (true) {
             Connection connection = server.getConnection();
-            (new NameServiceThread(connection)).start();
+            (new GlobalNameServiceThread(connection)).start();
         }
     }
 
-    protected static synchronized void addObjectToMap(String name, Object servant) {
+    protected static synchronized void addObjectToMap(String name, HostReference servant) {
         objectMap.put(name, servant);
     }
 
-    protected static synchronized Object getObjectFromMap(String name) {
+    protected static synchronized HostReference getObjectFromMap(String name) {
         return objectMap.get(name);
     }
 }
@@ -56,7 +56,7 @@ public class NameService {
 /**
  * Working thread to process the client request
  */
-class NameServiceThread extends Thread {
+class GlobalNameServiceThread extends Thread {
     /**
      * active connection
      */
@@ -65,36 +65,35 @@ class NameServiceThread extends Thread {
     /**
      * Logger
      */
-    private final Logger log = Logger.getLogger(NameServiceThread.class.getName());
+    private final Logger log = Logger.getLogger(GlobalNameServiceThread.class.getName());
 
     /**
      * constructor
      *
      * @param connection active connection to a client
      */
-    public NameServiceThread(Connection connection) {
+    public GlobalNameServiceThread(Connection connection) {
         this.connection = connection;
     }
 
     @Override
     public void run() {
         try {
-            String[] message = ((String) connection.receive()).split(",");
+            String[] message = (connection.receive()).split(",");
 
             switch (message[0]) {
                 case "REBIND":
-                    connection.send("OK");
-                    Object objectToSave = connection.receive();
                     log.info("RequestMessage added to objectMap");
-                    NameService.addObjectToMap(message[1], objectToSave);
+                    GlobalNameService.addObjectToMap(message[1], new HostReference(connection.getHostname(), connection.getPort()));
                     break;
                 case "RESOLVE":
                     log.info("Sending requested object to client");
-                    Object requestedObject = NameService.getObjectFromMap(message[1]);
-//                    connection.send(requestedObject);
+                    HostReference requestedHostReference = GlobalNameService.getObjectFromMap(message[1]);
+                    connection.send(requestedHostReference.getHostname() + "," + requestedHostReference.getPort());
                     break;
                 default:
                     log.log(Level.SEVERE, "Unknown message received");
+                    connection.send("ERROR - unknown message received");
                     break;
             }
 

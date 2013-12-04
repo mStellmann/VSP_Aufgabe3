@@ -1,12 +1,16 @@
 package cash_access;
 
+import mware_lib.Stub;
+
 /**
  * TODO Javadoc
  */
 public class RemoteTransaction extends TransactionImplBase {
 
-    public RemoteTransaction(Object obj) {
-        // TODO constructor
+    private Stub stub;
+
+    public RemoteTransaction(Stub stub) {
+        this.stub = stub;
     }
 
     @Override

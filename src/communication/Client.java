@@ -5,20 +5,16 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class Client {
-    private Socket mySocket;
+    private Socket socket;
 
     private BufferedReader in;
-    private ObjectInputStream inObject;
     private DataOutputStream out;
-    private ObjectOutputStream outObject;
 
     public Client(String host, int port) throws UnknownHostException, IOException {
-        mySocket = new Socket(host, port);
+        socket = new Socket(host, port);
 
-        in = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
-        inObject = new ObjectInputStream(mySocket.getInputStream());
-        out = new DataOutputStream(mySocket.getOutputStream());
-        outObject = new ObjectOutputStream(mySocket.getOutputStream());
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        out = new DataOutputStream(socket.getOutputStream());
     }
 
     public String receive() throws IOException {
@@ -32,8 +28,6 @@ public class Client {
     public void close() throws IOException {
         in.close();
         out.close();
-        inObject.close();
-        outObject.close();
-        mySocket.close();
+        socket.close();
     }
 }

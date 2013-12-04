@@ -16,15 +16,14 @@ class NameServiceImpl extends NameService {
     @Override
     public void rebind(Object servant, String name) throws IOException, ClassNotFoundException {
         client.send("REBIND," + name);
-        if (client.receive().equals("OK")) {
-            System.out.println("HAHHAHAHAHAHAHAHAHH");
-        }
     }
 
     @Override
     public Object resolve(String name) throws IOException, ClassNotFoundException {
         client.send("RESOLVE," + name);
-        return client.receive();
+        // elem 0: hostname ; elem 1: port
+        String[] resolveAnswer = client.receive().split(",");
+        return new Stub(name, resolveAnswer[0], Integer.getInteger(resolveAnswer[1]));
     }
 
     @Override

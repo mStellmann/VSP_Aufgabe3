@@ -1,11 +1,16 @@
 package bank_access;
 
+import mware_lib.Stub;
+
 /**
  * TODO JavaDoc
  */
 public class RemoteAccount extends AccountImplBase {
-    public RemoteAccount(Object obj) {
-        // TODO constructor
+
+    private Stub stub;
+
+    public RemoteAccount(Stub stub) {
+        this.stub = stub;
     }
 
     @Override

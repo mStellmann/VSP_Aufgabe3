@@ -1,11 +1,16 @@
 package bank_access;
 
+import mware_lib.Stub;
+
 /**
  * TODO JavaDoc
  */
 public class RemoteManager extends ManagerImplBase {
-    public RemoteManager(Object obj) {
-        // TODO constructor
+
+    private Stub stub;
+
+    public RemoteManager(Stub stub) {
+        this.stub = stub;
     }
 
     @Override

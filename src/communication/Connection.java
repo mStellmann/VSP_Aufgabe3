@@ -4,16 +4,14 @@ import java.io.*;
 import java.net.Socket;
 
 public class Connection {
+    private Socket socket;
     private BufferedReader in;
-    private ObjectInputStream inObject;
     private DataOutputStream out;
-    private ObjectOutputStream outObject;
 
-    public Connection(Socket mySock) throws IOException {
-        in = new BufferedReader(new InputStreamReader(mySock.getInputStream()));
-        inObject = new ObjectInputStream(mySock.getInputStream());
-        out = new DataOutputStream(mySock.getOutputStream());
-        outObject = new ObjectOutputStream(mySock.getOutputStream());
+    public Connection(Socket socket) throws IOException {
+        this.socket = socket;
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        out = new DataOutputStream(socket.getOutputStream());
     }
 
     public String receive() throws IOException {
@@ -24,10 +22,16 @@ public class Connection {
         out.writeBytes(message + '\n');
     }
 
+    public String getHostname() {
+        return socket.getInetAddress().getHostAddress();
+    }
+
+    public int getPort() {
+        return socket.getPort();
+    }
+
     public void close() throws IOException {
         in.close();
-        inObject.close();
         out.close();
-        outObject.close();
     }
 }

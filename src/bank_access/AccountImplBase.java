@@ -1,5 +1,7 @@
 package bank_access;
 
+import mware_lib.Stub;
+
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -7,21 +9,22 @@ import java.util.logging.Logger;
 /**
  * TODO doc
  */
-public abstract class AccountImplBase implements Serializable {
+public abstract class AccountImplBase {
     /**
      * Logger
      */
     private static final Logger log = Logger.getLogger(AccountImplBase.class.getName());
-    private static final long serialVersionUID = 5898718024226037921L;
-
 
     public abstract void transfer(double amount) throws OverdraftException;
 
     public abstract double getBalance();
 
-    public static AccountImplBase narrowCast(Object o) {
+    public static AccountImplBase narrowCast(Object stub) {
         try {
-            return new RemoteAccount(o);
+            if (stub instanceof Stub)
+                return new RemoteAccount((Stub) stub);
+            else
+                throw new RuntimeException("narrowCast of unknown object.");
         } catch (ClassCastException cException) {
             log.log(Level.SEVERE, "ClassCastException - AccountImplBase", cException);
             return null;
