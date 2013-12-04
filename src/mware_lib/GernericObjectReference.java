@@ -3,12 +3,12 @@ package mware_lib;
 /**
  * TODO JavaDoc
  */
-public class Stub {
+public class GernericObjectReference {
     private String name;
     private String hostname;
     private int port;
 
-    public Stub(String name, String hostname, int port) {
+    public GernericObjectReference(String name, String hostname, int port) {
         this.name = name;
         this.hostname = hostname;
         this.port = port;
@@ -26,7 +26,7 @@ public class Stub {
         return port;
     }
 
-    public Response invokeRemoteMethod(String methodName, Class[] argumentClasses, Object[] arguments) {
+    public Response invokeRemoteMethod(String methodName, Class[] argumentClasses, Object[] arguments) throws RuntimeException {
         // TODO Request senden -> ObjectOutputStream ; Response empfangen ObjectInputStream
         return null;
     }

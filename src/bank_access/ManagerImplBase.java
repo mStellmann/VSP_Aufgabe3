@@ -1,8 +1,7 @@
 package bank_access;
 
-import mware_lib.Stub;
+import mware_lib.GernericObjectReference;
 
-import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,10 +16,10 @@ public abstract class ManagerImplBase {
 
     public abstract String createAccount(String owner, String branch);
 
-    public static ManagerImplBase narrowCast(Object stub) {
+    public static ManagerImplBase narrowCast(Object gor) {
         try {
-            if (stub instanceof Stub)
-                return new RemoteManager((Stub) stub);
+            if (gor instanceof GernericObjectReference)
+                return new ManagerStub((GernericObjectReference) gor);
             else
                 throw new RuntimeException("narrowCast of unknown object.");
         } catch (ClassCastException cException) {

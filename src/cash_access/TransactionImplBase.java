@@ -1,8 +1,7 @@
 package cash_access;
 
-import mware_lib.Stub;
+import mware_lib.GernericObjectReference;
 
-import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,10 +23,10 @@ public abstract class TransactionImplBase {
     public abstract double getBalance(String accountId)
             throws InvalidParamException;
 
-    public static TransactionImplBase narrowCast(Object stub) {
+    public static TransactionImplBase narrowCast(Object gor) {
         try {
-            if (stub instanceof Stub)
-                return new RemoteTransaction((Stub) stub);
+            if (gor instanceof GernericObjectReference)
+                return new TransactionStub((GernericObjectReference) gor);
             else
                 throw new RuntimeException("narrowCast of unknown object.");
         } catch (ClassCastException cException) {
