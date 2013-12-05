@@ -1,6 +1,6 @@
 package mware_lib;
 
-import communication.Server;
+import communication.ObjectServer;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -20,13 +20,13 @@ public class ObjectBroker {
     private static final Logger log = Logger.getLogger(ObjectBroker.class.getName());
     private NameService nameService;
 
-    private Server objectServer;
+    private ObjectServer objectServer;
 
     private ObjectBroker(String serviceName, int port) throws IOException {
         this.isCreated = true;
         this.objectBroker = this;
 
-        this.objectServer = new Server(OBJSERVERLISTENPORT);
+        this.objectServer = new ObjectServer(OBJSERVERLISTENPORT);
         this.nameService = new NameServiceImpl(serviceName, port, objectServer);
     }
 

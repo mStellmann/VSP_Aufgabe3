@@ -7,9 +7,9 @@ import java.io.Serializable;
  */
 public class Response implements Serializable {
     private static final long serialVersionUID = -2895253895746900973L;
-    private boolean isCorrect;
-    private Object returnValue;
-    private RuntimeException exception;
+    private final boolean isCorrect;
+    private final Object returnValue;
+    private final RuntimeException exception;
 
     public Response(boolean isCorrect, Object returnValue, RuntimeException exception) {
         this.isCorrect = isCorrect;

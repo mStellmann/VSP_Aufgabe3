@@ -1,6 +1,6 @@
 package mware_lib;
 
-import communication.Connection;
+import communication.ObjectConnection;
 
 import java.io.IOException;
 import java.util.Map;
@@ -9,12 +9,12 @@ import java.util.Map;
  * TODO JavaDoc
  */
 public class ObjectServerThread extends Thread {
-    Connection connection;
+    ObjectConnection connection;
 
     // Reference to the skeletonMap
     Map<String, Skeleton> skeletonMap;
 
-    public ObjectServerThread(Connection connection, Map<String, Skeleton> skeletonMap) {
+    public ObjectServerThread(ObjectConnection connection, Map<String, Skeleton> skeletonMap) {
         this.connection = connection;
         this.skeletonMap = skeletonMap;
     }
