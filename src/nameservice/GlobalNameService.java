@@ -84,7 +84,7 @@ class GlobalNameServiceThread extends Thread {
             switch (message[0]) {
                 case "REBIND":
                     log.info("RequestMessage added to objectMap");
-                    GlobalNameService.addObjectToMap(message[1], new HostReference(message[1], Integer.getInteger(message[2])));
+                    GlobalNameService.addObjectToMap(message[1], new HostReference(message[2], Integer.getInteger(message[3])));
                     connection.send("OK");
                     break;
                 case "RESOLVE":
