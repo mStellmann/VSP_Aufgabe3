@@ -17,7 +17,7 @@ class NameServiceImpl extends NameService {
     private boolean objectServerIsRunning;
     private Thread serverThread;
     private static final Logger log = Logger.getLogger(NameServiceImpl.class.getName());
-    private Map<String, Object> skeletonMap;
+    private Map<String, Skeleton> skeletonMap;
 
     public NameServiceImpl(String serviceName, int port, Server objectServer) throws IOException {
         this.client = new Client(serviceName, port);
@@ -31,7 +31,7 @@ class NameServiceImpl extends NameService {
         client.send("REBIND;" + name + ";" + objectServer.getHostname() + ";" + objectServer.getPort());
         if (client.receive().equals("OK")) {
             // saving the object as skeleton
-            skeletonMap.put(name, servant);
+            skeletonMap.put(name, new Skeleton(servant));
 
             // starting the object server if no instance is running
             if (!objectServerIsRunning) {
@@ -44,10 +44,10 @@ class NameServiceImpl extends NameService {
                             Connection connection = null;
                             try {
                                 connection = objectServer.getConnection();
+                                (new ObjectServerThread(connection, skeletonMap)).start();
                             } catch (IOException e) {
                                 log.log(Level.SEVERE, "connection error", e);
                             }
-                            (new ObjectServerThread(connection, skeletonMap)).start();
                         }
                     }
                 };

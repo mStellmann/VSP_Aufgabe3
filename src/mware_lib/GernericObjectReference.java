@@ -1,5 +1,9 @@
 package mware_lib;
 
+import communication.Client;
+
+import java.io.IOException;
+
 /**
  * TODO JavaDoc
  */
@@ -26,8 +30,16 @@ public class GernericObjectReference {
         return port;
     }
 
-    public Response invokeRemoteMethod(String classname, String methodName, Class[] argumentClasses, Object[] arguments) throws RuntimeException {
-        // TODO Request senden -> ObjectOutputStream ; Response empfangen ObjectInputStream
-        return null;
+    public Response invokeRemoteMethod(String methodName, Class[] argumentClasses, Object[] arguments) throws RuntimeException {
+        try {
+            Client client = new Client(hostname, port);
+            client.sendObject(new Request(name, methodName, argumentClasses, arguments));
+            return (Response) client.receiveObject();
+
+        } catch (IOException e) {
+            throw new RuntimeException("Connection Error");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("Class not Found ClassNotFoundException");
+        }
     }
 }

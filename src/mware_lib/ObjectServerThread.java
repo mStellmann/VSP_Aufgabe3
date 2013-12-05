@@ -2,6 +2,7 @@ package mware_lib;
 
 import communication.Connection;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -11,15 +12,30 @@ public class ObjectServerThread extends Thread {
     Connection connection;
 
     // Reference to the skeletonMap
-    Map<String, Object> skeletonMap;
+    Map<String, Skeleton> skeletonMap;
 
-    public ObjectServerThread(Connection connection, Map<String, Object> skeletonMap) {
+    public ObjectServerThread(Connection connection, Map<String, Skeleton> skeletonMap) {
         this.connection = connection;
         this.skeletonMap = skeletonMap;
     }
 
     @Override
     public void run() {
-        super.run();    // TODO
+        try {
+            Object requestObject = connection.receiveObject();
+            if (requestObject instanceof Request) {
+                Request request = (Request) requestObject;
+                Skeleton skeleton = skeletonMap.get(request.getObjectRefName());
+                Response response = skeleton.invokeMethode(request.getMethodName(), request.getArgumentClasses(), request.getArguments());
+                connection.sendObject(response);
+            } else {
+                connection.sendObject(new Response(false, null, new RuntimeException("Received an unknown object")));
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace(); // TODO logging
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace(); // TODO logging
+        }
     }
 }
