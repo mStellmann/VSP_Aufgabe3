@@ -6,28 +6,32 @@ import java.net.Socket;
 public class Connection {
     private Socket socket;
     private BufferedReader in;
+    private ObjectInputStream inObj;
     private DataOutputStream out;
+    private ObjectOutputStream outObj;
 
     public Connection(Socket socket) throws IOException {
         this.socket = socket;
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        inObj = new ObjectInputStream(socket.getInputStream());
         out = new DataOutputStream(socket.getOutputStream());
+        outObj = new ObjectOutputStream(socket.getOutputStream());
     }
 
     public String receive() throws IOException {
         return in.readLine();
     }
 
+    public Object receiveObject() throws IOException, ClassNotFoundException {
+        return inObj.readObject();
+    }
+
     public void send(String message) throws IOException {
         out.writeBytes(message + '\n');
     }
 
-    public String getHostname() {
-        return socket.getInetAddress().getHostAddress();
-    }
-
-    public int getPort() {
-        return socket.getPort();
+    public void sendObject(Object o) throws IOException {
+        outObj.writeObject(o);
     }
 
     public void close() throws IOException {
