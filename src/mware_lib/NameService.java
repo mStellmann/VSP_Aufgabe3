@@ -12,7 +12,7 @@ public abstract class NameService {
      * @param servant object, processing remote methods
      * @param name    a global unique name of the object / service
      */
-    public abstract void rebind(Object servant, String name) throws IOException, ClassNotFoundException;
+    public abstract void rebind(Object servant, String name) throws IOException, ClassNotFoundException, RuntimeException;
 
     /**
      * Resolves name to a generic object reference

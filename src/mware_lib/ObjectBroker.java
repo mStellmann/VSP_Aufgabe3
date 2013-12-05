@@ -1,5 +1,7 @@
 package mware_lib;
 
+import communication.Server;
+
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,17 +12,26 @@ import java.util.logging.Logger;
  * Singleton
  */
 public class ObjectBroker {
+    private static final int OBJSERVERLISTENPORT = 12345;
+
     private static boolean isCreated = false;
+
     private static ObjectBroker objectBroker;
     private static final Logger log = Logger.getLogger(ObjectBroker.class.getName());
-
     private NameService nameService;
+
+    private Server objectServer;
 
     private ObjectBroker(String serviceName, int port) throws IOException {
         this.isCreated = true;
         this.objectBroker = this;
 
-        this.nameService = new NameServiceImpl(serviceName, port);
+        this.objectServer = new Server(OBJSERVERLISTENPORT);
+        this.nameService = new NameServiceImpl(serviceName, port, objectServer);
+    }
+
+    public static int getObjserverlistenport() {
+        return OBJSERVERLISTENPORT;
     }
 
     /**
@@ -36,6 +47,7 @@ public class ObjectBroker {
      */
     public void shutDown() throws IOException {
         nameService.shutdown();
+        objectServer.shutdown();
     }
 
     /**

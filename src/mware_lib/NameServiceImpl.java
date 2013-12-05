@@ -1,37 +1,76 @@
 package mware_lib;
 
 import communication.Client;
+import communication.Connection;
+import communication.Server;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class NameServiceImpl extends NameService {
 
     private Client client;
+    private Server objectServer;
+    private boolean objectServerIsRunning;
+    private Thread serverThread;
+    private static final Logger log = Logger.getLogger(NameServiceImpl.class.getName());
     private Map<String, Object> skeletonMap;
 
-    public NameServiceImpl(String serviceName, int port) throws IOException {
+    public NameServiceImpl(String serviceName, int port, Server objectServer) throws IOException {
         this.client = new Client(serviceName, port);
+        this.objectServer = objectServer;
+        objectServerIsRunning = false;
         skeletonMap = new HashMap<>();
     }
 
     @Override
-    public void rebind(Object servant, String name) throws IOException {
-        client.send("REBIND," + name);
-        skeletonMap.put(name, servant);
+    public void rebind(Object servant, String name) throws IOException, RuntimeException {
+        client.send("REBIND;" + name + ";" + objectServer.getHostname() + ";" + objectServer.getPort());
+        if (client.receive().equals("OK")) {
+            // saving the object as skeleton
+            skeletonMap.put(name, servant);
+
+            // starting the object server if no instance is running
+            if (!objectServerIsRunning) {
+                objectServerIsRunning = true;
+
+                serverThread = new Thread() {
+                    @Override
+                    public void run() {
+                        while (true) {
+                            Connection connection = null;
+                            try {
+                                connection = objectServer.getConnection();
+                            } catch (IOException e) {
+                                log.log(Level.SEVERE, "connection error", e);
+                            }
+                            (new ObjectServerThread(connection, skeletonMap)).start();
+                        }
+                    }
+                };
+                serverThread.start();
+            }
+        } else {
+            throw new RuntimeException("Rebind Error");
+        }
+
     }
 
     @Override
     public Object resolve(String name) throws IOException {
-        client.send("RESOLVE," + name);
+        client.send("RESOLVE;" + name);
         // elem 0: hostname ; elem 1: port
-        String[] resolveAnswer = client.receive().split(",");
+        String[] resolveAnswer = client.receive().split(";");
         return new GernericObjectReference(name, resolveAnswer[0], Integer.getInteger(resolveAnswer[1]));
     }
 
     @Override
     public void shutdown() throws IOException {
+        if (objectServerIsRunning)
+            serverThread.interrupt();
         client.close();
     }
 }

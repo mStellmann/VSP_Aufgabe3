@@ -3,7 +3,7 @@ package mware_lib;
 import java.io.Serializable;
 
 /**
- * TODO JavaDoc
+ * Response-Object with the returnvalue or an exception.
  */
 public class Response implements Serializable {
     private static final long serialVersionUID = -2895253895746900973L;

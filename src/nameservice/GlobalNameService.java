@@ -79,21 +79,22 @@ class GlobalNameServiceThread extends Thread {
     @Override
     public void run() {
         try {
-            String[] message = (connection.receive()).split(",");
+            String[] message = (connection.receive()).split(";");
 
             switch (message[0]) {
                 case "REBIND":
                     log.info("RequestMessage added to objectMap");
-                    GlobalNameService.addObjectToMap(message[1], new HostReference(connection.getHostname(), connection.getPort()));
+                    GlobalNameService.addObjectToMap(message[1], new HostReference(message[1], Integer.getInteger(message[2])));
+                    connection.send("OK");
                     break;
                 case "RESOLVE":
                     log.info("Sending requested object to client");
                     HostReference requestedHostReference = GlobalNameService.getObjectFromMap(message[1]);
-                    connection.send(requestedHostReference.getHostname() + "," + requestedHostReference.getPort());
+                    connection.send(requestedHostReference.getHostname() + ";" + requestedHostReference.getPort());
                     break;
                 default:
                     log.log(Level.SEVERE, "Unknown message received");
-                    connection.send("ERROR - unknown message received");
+                    connection.send("ERROR");
                     break;
             }
 
