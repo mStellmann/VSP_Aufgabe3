@@ -26,7 +26,7 @@ public class GernericObjectReference {
         return port;
     }
 
-    public Response invokeRemoteMethod(String methodName, Class[] argumentClasses, Object[] arguments) throws RuntimeException {
+    public Response invokeRemoteMethod(String classname, String methodName, Class[] argumentClasses, Object[] arguments) throws RuntimeException {
         // TODO Request senden -> ObjectOutputStream ; Response empfangen ObjectInputStream
         return null;
     }

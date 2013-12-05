@@ -1,7 +1,7 @@
 package nameservice;
 
 /**
- * TODO JavaDoc
+ * Reference-Object to locate saved server.
  */
 public class HostReference {
     private String hostname;
