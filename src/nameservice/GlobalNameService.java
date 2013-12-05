@@ -90,7 +90,7 @@ class GlobalNameServiceThread extends Thread {
                 case "RESOLVE":
                     log.info("Sending requested object to client");
                     HostReference requestedHostReference = GlobalNameService.getObjectFromMap(message[1]);
-                    connection.send(requestedHostReference.getHostname() + ";" + requestedHostReference.getPort());
+                    connection.send("OK;" + requestedHostReference.getHostname() + ";" + requestedHostReference.getPort());
                     break;
                 default:
                     log.log(Level.SEVERE, "Unknown message received");

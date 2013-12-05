@@ -30,6 +30,15 @@ public class GernericObjectReference {
         return port;
     }
 
+    /**
+     * TODO JavaDoc
+     *
+     * @param methodName
+     * @param argumentClasses
+     * @param arguments
+     * @return
+     * @throws RuntimeException
+     */
     public Response invokeRemoteMethod(String methodName, Class[] argumentClasses, Object[] arguments) throws RuntimeException {
         try {
             Client client = new Client(hostname, port);

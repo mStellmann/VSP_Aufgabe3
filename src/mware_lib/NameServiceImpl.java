@@ -41,9 +41,11 @@ class NameServiceImpl extends NameService {
                     @Override
                     public void run() {
                         while (true) {
-                            Connection connection = null;
+                            if (this.isInterrupted()) {
+                                this.interrupt();
+                            }
                             try {
-                                connection = objectServer.getConnection();
+                                Connection connection = objectServer.getConnection();
                                 (new ObjectServerThread(connection, skeletonMap)).start();
                             } catch (IOException e) {
                                 log.log(Level.SEVERE, "connection error", e);
@@ -64,7 +66,10 @@ class NameServiceImpl extends NameService {
         client.send("RESOLVE;" + name);
         // elem 0: hostname ; elem 1: port
         String[] resolveAnswer = client.receive().split(";");
-        return new GernericObjectReference(name, resolveAnswer[0], Integer.getInteger(resolveAnswer[1]));
+        if (resolveAnswer[0].equals("OK"))
+            return new GernericObjectReference(name, resolveAnswer[1], Integer.getInteger(resolveAnswer[2]));
+        else
+            throw new RuntimeException("Error at resolve");
     }
 
     @Override
