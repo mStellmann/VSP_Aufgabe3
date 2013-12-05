@@ -12,7 +12,7 @@ import java.util.logging.Logger;
  * Singleton
  */
 public class ObjectBroker {
-    private static final int OBJSERVERLISTENPORT = 12345;
+    private static int OBJSERVERLISTENPORT = 12345;
 
     private static boolean isCreated = false;
 
@@ -26,12 +26,8 @@ public class ObjectBroker {
         this.isCreated = true;
         this.objectBroker = this;
 
-        this.objectServer = new ObjectServer(OBJSERVERLISTENPORT);
+        this.objectServer = new ObjectServer(OBJSERVERLISTENPORT++);     // TODO WENN VERTEILT -> dann egal
         this.nameService = new NameServiceImpl(serviceName, port, objectServer);
-    }
-
-    public static int getObjserverlistenport() {
-        return OBJSERVERLISTENPORT;
     }
 
     /**
