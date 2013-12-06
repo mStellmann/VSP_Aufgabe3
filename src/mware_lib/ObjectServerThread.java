@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * TODO JavaDoc
+ * This Thread handles the incoming method request.
  */
 public class ObjectServerThread extends Thread {
     ObjectConnection connection;
@@ -26,7 +26,7 @@ public class ObjectServerThread extends Thread {
             if (requestObject instanceof Request) {
                 Request request = (Request) requestObject;
                 Skeleton skeleton = skeletonMap.get(request.getObjectRefName());
-                Response response = skeleton.invokeMethode(request.getMethodName(), request.getArgumentClasses(), request.getArguments());
+                Response response = skeleton.invokeMethod(request.getMethodName(), request.getArgumentClasses(), request.getArguments());
                 connection.sendObject(response);
             } else {
                 connection.sendObject(new Response(false, null, new RuntimeException("Received an unknown object")));

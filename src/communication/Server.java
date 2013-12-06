@@ -4,26 +4,26 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 public class Server {
-    private ServerSocket MySvrSocket;
+    private ServerSocket serverSocket;
 
     public Server(int listenPort) throws IOException {
-        MySvrSocket = new ServerSocket(listenPort);
+        serverSocket = new ServerSocket(listenPort);
     }
 
     public Connection getConnection() throws IOException {
-        return new Connection(MySvrSocket.accept());
+        return new Connection(serverSocket.accept());
     }
 
     public void shutdown() throws IOException {
-        MySvrSocket.close();
+        serverSocket.close();
     }
 
     public String getHostname() {
-        return MySvrSocket.getInetAddress().getHostName();
+        return serverSocket.getInetAddress().getHostName();
     }
 
     public int getPort() {
-        return MySvrSocket.getLocalPort();
+        return serverSocket.getLocalPort();
     }
 
 }

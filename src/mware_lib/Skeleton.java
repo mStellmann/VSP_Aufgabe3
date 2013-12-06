@@ -21,7 +21,7 @@ public class Skeleton {
      * @param arguments       Arguments of the invoked method.
      * @return Response-Object with the result of the invoked method.
      */
-    public Response invokeMethode(String methodName, Class[] argumentClasses, Object[] arguments) {
+    public Response invokeMethod(String methodName, Class[] argumentClasses, Object[] arguments) {
         try {
             Method method = object.getClass().getMethod(methodName, argumentClasses);
             Object result = method.invoke(object, arguments);
