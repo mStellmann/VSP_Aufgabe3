@@ -16,7 +16,7 @@ public class GlobalNameService {
     /**
      * Contains every binded object.
      */
-    private static Map<String, HostReference> objectMap;
+    public static Map<String, HostReference> objectMap;
 
     /**
      * Serverlistenport
@@ -35,6 +35,7 @@ public class GlobalNameService {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
+
         objectMap = new HashMap<>();
 
         Server server = new Server(LISTENPORT);
@@ -84,7 +85,7 @@ class GlobalNameServiceThread extends Thread {
             switch (message[0]) {
                 case "REBIND":
                     log.info("RequestMessage added to objectMap");
-                    GlobalNameService.addObjectToMap(message[1], new HostReference(message[1], Integer.getInteger(message[2])));
+                    GlobalNameService.addObjectToMap(message[1], new HostReference(message[2], Integer.parseInt(message[3])));
                     connection.send("OK");
                     break;
                 case "RESOLVE":

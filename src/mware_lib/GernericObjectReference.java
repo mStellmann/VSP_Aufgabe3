@@ -1,6 +1,6 @@
 package mware_lib;
 
-import communication.Client;
+import communication.ObjectClient;
 
 import java.io.IOException;
 
@@ -41,7 +41,7 @@ public class GernericObjectReference {
      */
     public Response invokeRemoteMethod(String methodName, Class[] argumentClasses, Object[] arguments) throws RuntimeException {
         try {
-            Client client = new Client(hostname, port);
+            ObjectClient client = new ObjectClient(hostname, port);
             client.sendObject(new Request(name, methodName, argumentClasses, arguments));
             return (Response) client.receiveObject();
 

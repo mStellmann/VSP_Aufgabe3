@@ -1,8 +1,8 @@
 package mware_lib;
 
 import communication.Client;
-import communication.Connection;
-import communication.Server;
+import communication.ObjectConnection;
+import communication.ObjectServer;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -13,13 +13,13 @@ import java.util.logging.Logger;
 class NameServiceImpl extends NameService {
 
     private Client client;
-    private Server objectServer;
+    private ObjectServer objectServer;
     private boolean objectServerIsRunning;
     private Thread serverThread;
     private static final Logger log = Logger.getLogger(NameServiceImpl.class.getName());
     private Map<String, Skeleton> skeletonMap;
 
-    public NameServiceImpl(String serviceName, int port, Server objectServer) throws IOException {
+    public NameServiceImpl(String serviceName, int port, ObjectServer objectServer) throws IOException {
         this.client = new Client(serviceName, port);
         this.objectServer = objectServer;
         objectServerIsRunning = false;
@@ -45,7 +45,7 @@ class NameServiceImpl extends NameService {
                                 this.interrupt();
                             }
                             try {
-                                Connection connection = objectServer.getConnection();
+                                ObjectConnection connection = objectServer.getConnection();
                                 (new ObjectServerThread(connection, skeletonMap)).start();
                             } catch (IOException e) {
                                 log.log(Level.SEVERE, "connection error", e);
