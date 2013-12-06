@@ -5,9 +5,6 @@ import mware_lib.GernericObjectReference;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * TODO doc
- */
 public abstract class AccountImplBase {
     /**
      * Logger
@@ -18,6 +15,12 @@ public abstract class AccountImplBase {
 
     public abstract double getBalance();
 
+    /**
+     * Casts an AccountImplBase to an AccountStub.
+     *
+     * @param gor GenericObjectReference with the Hostinformation
+     * @return Stub-Object of this abstract class
+     */
     public static AccountImplBase narrowCast(Object gor) {
         try {
             if (gor instanceof GernericObjectReference)

@@ -5,9 +5,6 @@ import mware_lib.GernericObjectReference;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * TODO JavaDoc
- */
 public abstract class TransactionImplBase {
     /**
      * Logger
@@ -23,6 +20,12 @@ public abstract class TransactionImplBase {
     public abstract double getBalance(String accountId)
             throws InvalidParamException;
 
+    /**
+     * Casts a TransactionImplBase to a TransactionStub.
+     *
+     * @param gor GenericObjectReference with the Hostinformation
+     * @return Stub-Object of this abstract class
+     */
     public static TransactionImplBase narrowCast(Object gor) {
         try {
             if (gor instanceof GernericObjectReference)

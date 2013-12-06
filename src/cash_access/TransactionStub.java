@@ -4,7 +4,7 @@ import mware_lib.GernericObjectReference;
 import mware_lib.Response;
 
 /**
- * TODO Javadoc
+ * Stub-Object of the given Interface.
  */
 public class TransactionStub extends TransactionImplBase {
 

@@ -5,9 +5,6 @@ import mware_lib.GernericObjectReference;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * TODO doc
- */
 public abstract class ManagerImplBase {
     /**
      * Logger
@@ -16,6 +13,12 @@ public abstract class ManagerImplBase {
 
     public abstract String createAccount(String owner, String branch);
 
+    /**
+     * Casts a ManagerImplBase to a ManagerStub.
+     *
+     * @param gor GenericObjectReference with the Hostinformation
+     * @return Stub-Object of this abstract class
+     */
     public static ManagerImplBase narrowCast(Object gor) {
         try {
             if (gor instanceof GernericObjectReference)

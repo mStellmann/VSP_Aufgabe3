@@ -26,7 +26,7 @@ public class ObjectBroker {
         this.isCreated = true;
         this.objectBroker = this;
 
-        this.objectServer = new ObjectServer(OBJSERVERLISTENPORT++);     // TODO WENN VERTEILT -> dann egal
+        this.objectServer = new ObjectServer(OBJSERVERLISTENPORT);
         this.nameService = new NameServiceImpl(serviceName, port, objectServer);
     }
 

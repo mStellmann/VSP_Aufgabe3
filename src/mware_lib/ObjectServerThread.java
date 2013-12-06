@@ -4,15 +4,18 @@ import communication.ObjectConnection;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This Thread handles the incoming method request.
  */
 public class ObjectServerThread extends Thread {
-    ObjectConnection connection;
+    private ObjectConnection connection;
 
+    private static final Logger log = Logger.getLogger(ObjectServerThread.class.getName());
     // Reference to the skeletonMap
-    Map<String, Skeleton> skeletonMap;
+    private Map<String, Skeleton> skeletonMap;
 
     public ObjectServerThread(ObjectConnection connection, Map<String, Skeleton> skeletonMap) {
         this.connection = connection;
@@ -33,9 +36,9 @@ public class ObjectServerThread extends Thread {
             }
 
         } catch (IOException e) {
-            e.printStackTrace(); // TODO logging
+            log.log(Level.SEVERE, "IOException", e);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace(); // TODO logging
+            log.log(Level.SEVERE, "ClassNotFoundException", e);
         }
     }
 }

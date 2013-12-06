@@ -5,7 +5,7 @@ import communication.ObjectClient;
 import java.io.IOException;
 
 /**
- * TODO JavaDoc
+ * This Object contains the hostinformations of the method to be invoked.
  */
 public class GernericObjectReference {
     private String name;
@@ -31,13 +31,13 @@ public class GernericObjectReference {
     }
 
     /**
-     * TODO JavaDoc
+     * Creates the Request-Object and sends it to the Server and receive the Response-Object.
      *
-     * @param methodName
-     * @param argumentClasses
-     * @param arguments
-     * @return
-     * @throws RuntimeException
+     * @param methodName      Name of the remote method.
+     * @param argumentClasses All classes of the methodparameters.
+     * @param arguments       All methodparameters.
+     * @return The returnvalue of the invoked remote method.
+     * @throws RuntimeException If something went wrong.
      */
     public Response invokeRemoteMethod(String methodName, Class[] argumentClasses, Object[] arguments) throws RuntimeException {
         try {
