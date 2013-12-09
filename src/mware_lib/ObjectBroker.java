@@ -12,6 +12,7 @@ import java.util.logging.Logger;
  * Maintains a Reference to the NameService
  * Singleton
  */
+@SuppressWarnings("unused")
 public class ObjectBroker {
     private static boolean isCreated = false;
 
@@ -22,8 +23,8 @@ public class ObjectBroker {
     private ObjectServer objectServer;
 
     private ObjectBroker(String serviceName, int port, ObjectServer objectServer) throws IOException {
-        this.isCreated = true;
-        this.objectBroker = this;
+        objectBroker = this;
+        isCreated = true;
 
         this.objectServer = objectServer;
         this.nameService = new NameServiceImpl(serviceName, port, objectServer);
@@ -32,6 +33,7 @@ public class ObjectBroker {
     /**
      * @return an Implementation for a local NameService
      */
+    @SuppressWarnings("unused")
     public NameService getNameService() {
         return nameService;
     }
@@ -40,6 +42,7 @@ public class ObjectBroker {
      * shuts down the process, the OjectBroker is running in
      * terminates process
      */
+    @SuppressWarnings("unused")
     public void shutDown() throws IOException {
         nameService.shutdown();
         objectServer.shutdown();
@@ -52,6 +55,7 @@ public class ObjectBroker {
      * @param port        port NameService is listening at
      * @return an ObjectBroker Interface to Nameservice
      */
+    @SuppressWarnings("unused")
     public static ObjectBroker init(String serviceName, int port) {
         if (isCreated) {
             return objectBroker;
@@ -66,13 +70,13 @@ public class ObjectBroker {
 
                     try {
                         objectServer = new ObjectServer(objectServerPort);
+                        return new ObjectBroker(serviceName, port, objectServer);
                     } catch (SocketException so) {
                         log.info("Serverport was not avaiable: " + objectServerPort);
                     }
                     objectServerPort++;
                 } while (objectServer != null);
-
-                return new ObjectBroker(serviceName, port, objectServer);
+                throw new RuntimeException("Failure at creating the ObjectBroker");
             } catch (IOException e) {
                 log.log(Level.SEVERE, "Wrong IP or port", e);
                 return null;

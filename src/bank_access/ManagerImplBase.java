@@ -11,6 +11,7 @@ public abstract class ManagerImplBase {
      */
     private static final Logger log = Logger.getLogger(ManagerImplBase.class.getName());
 
+    @SuppressWarnings("unused")
     public abstract String createAccount(String owner, String branch);
 
     /**
@@ -19,6 +20,7 @@ public abstract class ManagerImplBase {
      * @param gor GenericObjectReference with the Hostinformation
      * @return Stub-Object of this abstract class
      */
+    @SuppressWarnings("unused")
     public static ManagerImplBase narrowCast(Object gor) {
         try {
             if (gor instanceof GernericObjectReference)

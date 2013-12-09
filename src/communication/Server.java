@@ -14,14 +14,17 @@ public class Server {
         return new Connection(serverSocket.accept());
     }
 
+    @SuppressWarnings("unused")
     public void shutdown() throws IOException {
         serverSocket.close();
     }
 
+    @SuppressWarnings("unused")
     public String getHostname() {
         return serverSocket.getInetAddress().getHostName();
     }
 
+    @SuppressWarnings("unused")
     public int getPort() {
         return serverSocket.getLocalPort();
     }

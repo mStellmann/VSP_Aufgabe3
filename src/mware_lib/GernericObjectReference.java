@@ -18,14 +18,17 @@ public class GernericObjectReference {
         this.port = port;
     }
 
+    @SuppressWarnings("unused")
     public String getName() {
         return name;
     }
 
+    @SuppressWarnings("unused")
     public String getHostname() {
         return hostname;
     }
 
+    @SuppressWarnings("unused")
     public int getPort() {
         return port;
     }

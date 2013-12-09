@@ -11,8 +11,10 @@ public abstract class AccountImplBase {
      */
     private static final Logger log = Logger.getLogger(AccountImplBase.class.getName());
 
+    @SuppressWarnings("unused")
     public abstract void transfer(double amount) throws Exception;
 
+    @SuppressWarnings("unused")
     public abstract double getBalance();
 
     /**
@@ -21,6 +23,7 @@ public abstract class AccountImplBase {
      * @param gor GenericObjectReference with the Hostinformation
      * @return Stub-Object of this abstract class
      */
+    @SuppressWarnings("unused")
     public static AccountImplBase narrowCast(Object gor) {
         try {
             if (gor instanceof GernericObjectReference)

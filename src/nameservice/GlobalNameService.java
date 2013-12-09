@@ -24,14 +24,9 @@ public class GlobalNameService {
     private static final int LISTENPORT = 49152;
 
     /**
-     * Logger
-     */
-    private static final Logger log = Logger.getLogger(GlobalNameService.class.getName());
-
-    /**
      * Start a NameService-Server
      *
-     * @param args
+     * @param args Input values.
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
@@ -39,6 +34,7 @@ public class GlobalNameService {
         objectMap = new HashMap<>();
 
         Server server = new Server(LISTENPORT);
+        // Server never stop running
         while (true) {
             Connection connection = server.getConnection();
             (new GlobalNameServiceThread(connection)).start();

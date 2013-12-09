@@ -11,12 +11,15 @@ public abstract class TransactionImplBase {
      */
     private static final Logger log = Logger.getLogger(TransactionImplBase.class.getName());
 
+    @SuppressWarnings("unused")
     public abstract void deposit(String accountId, double amount)
             throws InvalidParamException;
 
+    @SuppressWarnings("unused")
     public abstract void withdraw(String accountId, double amount)
             throws InvalidParamException, OverdraftException;
 
+    @SuppressWarnings("unused")
     public abstract double getBalance(String accountId)
             throws InvalidParamException;
 
@@ -26,6 +29,7 @@ public abstract class TransactionImplBase {
      * @param gor GenericObjectReference with the Hostinformation
      * @return Stub-Object of this abstract class
      */
+    @SuppressWarnings("unused")
     public static TransactionImplBase narrowCast(Object gor) {
         try {
             if (gor instanceof GernericObjectReference)

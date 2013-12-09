@@ -7,12 +7,10 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 
 public class Connection {
-    private Socket socket;
     private BufferedReader in;
     private DataOutputStream out;
 
     public Connection(Socket socket) throws IOException {
-        this.socket = socket;
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new DataOutputStream(socket.getOutputStream());
     }
@@ -25,6 +23,7 @@ public class Connection {
         out.writeBytes(message + '\n');
     }
 
+    @SuppressWarnings("unused")
     public void close() throws IOException {
         in.close();
         out.close();

@@ -27,6 +27,7 @@ public class ObjectClient {
         outObj.writeObject(o);
     }
 
+    @SuppressWarnings("unused")
     public void close() throws IOException {
         inObj.close();
         outObj.close();
