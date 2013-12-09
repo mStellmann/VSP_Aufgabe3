@@ -24,8 +24,10 @@ public class ObjectServerThread extends Thread {
 
     @Override
     public void run() {
+        while (true)
         try {
             Object requestObject = connection.receiveObject();
+            log.info("Received Object");
             if (requestObject instanceof Request) {
                 Request request = (Request) requestObject;
                 Skeleton skeleton = skeletonMap.get(request.getObjectRefName());

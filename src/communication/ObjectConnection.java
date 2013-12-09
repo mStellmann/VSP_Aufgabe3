@@ -10,8 +10,9 @@ public class ObjectConnection {
     private ObjectOutputStream outObj;
 
     public ObjectConnection(Socket socket) throws IOException {
-        inObj = new ObjectInputStream(socket.getInputStream());
         outObj = new ObjectOutputStream(socket.getOutputStream());
+        outObj.flush();
+        inObj = new ObjectInputStream(socket.getInputStream());
     }
 
     public Object receiveObject() throws IOException, ClassNotFoundException {
@@ -20,6 +21,7 @@ public class ObjectConnection {
 
     public void sendObject(Object o) throws IOException {
         outObj.writeObject(o);
+        outObj.flush();
     }
 
     @SuppressWarnings("unused")
