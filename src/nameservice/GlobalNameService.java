@@ -21,7 +21,7 @@ public class GlobalNameService {
     /**
      * Serverlistenport
      */
-    private static final int LISTENPORT = 14001;
+    private static final int LISTENPORT = 49152;
 
     /**
      * Logger

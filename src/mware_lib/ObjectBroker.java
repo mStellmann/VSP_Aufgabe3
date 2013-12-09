@@ -3,6 +3,7 @@ package mware_lib;
 import communication.ObjectServer;
 
 import java.io.IOException;
+import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,8 +13,6 @@ import java.util.logging.Logger;
  * Singleton
  */
 public class ObjectBroker {
-    private static int OBJSERVERLISTENPORT = 12345;
-
     private static boolean isCreated = false;
 
     private static ObjectBroker objectBroker;
@@ -22,11 +21,11 @@ public class ObjectBroker {
 
     private ObjectServer objectServer;
 
-    private ObjectBroker(String serviceName, int port) throws IOException {
+    private ObjectBroker(String serviceName, int port, ObjectServer objectServer) throws IOException {
         this.isCreated = true;
         this.objectBroker = this;
 
-        this.objectServer = new ObjectServer(OBJSERVERLISTENPORT);
+        this.objectServer = objectServer;
         this.nameService = new NameServiceImpl(serviceName, port, objectServer);
     }
 
@@ -58,7 +57,22 @@ public class ObjectBroker {
             return objectBroker;
         } else {
             try {
-                return new ObjectBroker(serviceName, port);
+                ObjectServer objectServer = null;
+                int objectServerPort = 49153;
+                do {
+                    // Can happen, should never.
+                    if (objectServerPort > 65535)
+                        throw new RuntimeException("No free ports avaiable.");
+
+                    try {
+                        objectServer = new ObjectServer(objectServerPort);
+                    } catch (SocketException so) {
+                        log.info("Serverport was not avaiable: " + objectServerPort);
+                    }
+                    objectServerPort++;
+                } while (objectServer != null);
+
+                return new ObjectBroker(serviceName, port, objectServer);
             } catch (IOException e) {
                 log.log(Level.SEVERE, "Wrong IP or port", e);
                 return null;
