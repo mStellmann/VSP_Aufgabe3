@@ -4,6 +4,7 @@ import communication.Connection;
 import communication.Server;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -21,7 +22,7 @@ public class GlobalNameService {
     /**
      * Serverlistenport
      */
-    private static final int LISTENPORT = 49152;
+    private static final int LISTENPORT = 12345;
 
     /**
      * Start a NameService-Server
@@ -75,28 +76,30 @@ class GlobalNameServiceThread extends Thread {
 
     @Override
     public void run() {
-        try {
-            String[] message = (connection.receive()).split(";");
+        while (true) {
+            try {
+                String[] message = (connection.receive()).split(";");
+                log.info("receive msg: " + Arrays.toString(message));
+                switch (message[0]) {
+                    case "REBIND":
+                        log.info("RequestMessage added to objectMap");
+                        GlobalNameService.addObjectToMap(message[1], new HostReference(message[2], Integer.parseInt(message[3])));
+                        connection.send("OK");
+                        break;
+                    case "RESOLVE":
+                        log.info("Sending requested object to client");
+                        HostReference requestedHostReference = GlobalNameService.getObjectFromMap(message[1]);
+                        connection.send("OK;" + requestedHostReference.getHostname() + ";" + requestedHostReference.getPort());
+                        break;
+                    default:
+                        log.log(Level.SEVERE, "Unknown message received");
+                        connection.send("ERROR");
+                        break;
+                }
 
-            switch (message[0]) {
-                case "REBIND":
-                    log.info("RequestMessage added to objectMap");
-                    GlobalNameService.addObjectToMap(message[1], new HostReference(message[2], Integer.parseInt(message[3])));
-                    connection.send("OK");
-                    break;
-                case "RESOLVE":
-                    log.info("Sending requested object to client");
-                    HostReference requestedHostReference = GlobalNameService.getObjectFromMap(message[1]);
-                    connection.send("OK;" + requestedHostReference.getHostname() + ";" + requestedHostReference.getPort());
-                    break;
-                default:
-                    log.log(Level.SEVERE, "Unknown message received");
-                    connection.send("ERROR");
-                    break;
+            } catch (IOException e) {
+                log.log(Level.SEVERE, "Received message problem", e);
             }
-
-        } catch (IOException e) {
-            log.log(Level.SEVERE, "Received message problem", e);
         }
     }
 }

@@ -21,6 +21,7 @@ public class Connection {
 
     public void send(String message) throws IOException {
         out.writeBytes(message + '\n');
+        out.flush();
     }
 
     @SuppressWarnings("unused")
