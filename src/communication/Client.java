@@ -15,7 +15,6 @@ public class Client {
 
     public Client(String host, int port) throws UnknownHostException, IOException {
         socket = new Socket(host, port);
-
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new DataOutputStream(socket.getOutputStream());
     }
@@ -26,6 +25,7 @@ public class Client {
 
     public void send(String message) throws IOException {
         out.writeBytes(message + '\n');
+        out.flush();
     }
 
     public void close() throws IOException {

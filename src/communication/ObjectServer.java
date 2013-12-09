@@ -19,7 +19,8 @@ public class ObjectServer {
     }
 
     public String getHostname() {
-        return serverSocket.getInetAddress().getHostName();
+        return "localhost"; // TODO wtf iph
+//        return serverSocket.getInetAddress().getHostName();
     }
 
     public int getPort() {

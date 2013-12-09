@@ -20,13 +20,9 @@ public class ObjectBroker {
     private static final Logger log = Logger.getLogger(ObjectBroker.class.getName());
     private NameService nameService;
 
-    private ObjectServer objectServer;
-
     private ObjectBroker(String serviceName, int port, ObjectServer objectServer) throws IOException {
         objectBroker = this;
         isCreated = true;
-
-        this.objectServer = objectServer;
         this.nameService = new NameServiceImpl(serviceName, port, objectServer);
     }
 
@@ -45,7 +41,6 @@ public class ObjectBroker {
     @SuppressWarnings("unused")
     public void shutDown() throws IOException {
         nameService.shutdown();
-        objectServer.shutdown();
     }
 
     /**
@@ -61,21 +56,17 @@ public class ObjectBroker {
             return objectBroker;
         } else {
             try {
-                ObjectServer objectServer = null;
-                int objectServerPort = 49153;
+                int objectServerPort = 12346;
                 do {
-                    // Can happen, should never.
-                    if (objectServerPort > 65535)
-                        throw new RuntimeException("No free ports avaiable.");
-
                     try {
-                        objectServer = new ObjectServer(objectServerPort);
+                        ObjectServer objectServer = new ObjectServer(objectServerPort);
+                        log.info("ObjectServer created with port: " + objectServerPort);
                         return new ObjectBroker(serviceName, port, objectServer);
                     } catch (SocketException so) {
                         log.info("Serverport was not avaiable: " + objectServerPort);
                     }
                     objectServerPort++;
-                } while (objectServer != null);
+                } while (objectServerPort <= 65535);
                 throw new RuntimeException("Failure at creating the ObjectBroker");
             } catch (IOException e) {
                 log.log(Level.SEVERE, "Wrong IP or port", e);

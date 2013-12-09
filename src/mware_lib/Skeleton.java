@@ -23,6 +23,7 @@ public class Skeleton {
      */
     public Response invokeMethod(String methodName, Class[] argumentClasses, Object[] arguments) {
         try {
+            System.out.println("--- invoke on Server ---");
             Method method = object.getClass().getMethod(methodName, argumentClasses);
             Object result = method.invoke(object, arguments);
             return new Response(true, result, null);

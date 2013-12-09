@@ -1,5 +1,7 @@
 package communication;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -14,9 +16,9 @@ public class ObjectClient {
 
     public ObjectClient(String host, int port) throws UnknownHostException, IOException {
         socket = new Socket(host, port);
-
-        inObj = new ObjectInputStream(socket.getInputStream());
         outObj = new ObjectOutputStream(socket.getOutputStream());
+        outObj.flush();
+        inObj = new ObjectInputStream(socket.getInputStream());
     }
 
     public Object receiveObject() throws IOException, ClassNotFoundException {
@@ -25,6 +27,7 @@ public class ObjectClient {
 
     public void sendObject(Object o) throws IOException {
         outObj.writeObject(o);
+        outObj.flush();
     }
 
     @SuppressWarnings("unused")
