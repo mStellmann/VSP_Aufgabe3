@@ -4,17 +4,17 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * Skeleton-Object to invoke methods on an object.
+ * Skeleton-Object to invoke methods on an servant.
  */
 public class Skeleton {
-    private final Object object;
+    private final Object servant;
 
-    public Skeleton(Object object) {
-        this.object = object;
+    public Skeleton(Object servant) {
+        this.servant = servant;
     }
 
     /**
-     * Invokes a method on the object.
+     * Invokes a method on the servant.
      *
      * @param methodName      Methodename of the methode to be invoked.
      * @param argumentClasses Classes of the arguments of the invoked method.
@@ -24,8 +24,8 @@ public class Skeleton {
     public Response invokeMethod(String methodName, Class[] argumentClasses, Object[] arguments) {
         try {
             System.out.println("--- invoke on Server ---");
-            Method method = object.getClass().getMethod(methodName, argumentClasses);
-            Object result = method.invoke(object, arguments);
+            Method method = servant.getClass().getMethod(methodName, argumentClasses);
+            Object result = method.invoke(servant, arguments);
             return new Response(true, result, null);
 
         } catch (NoSuchMethodException e) {
