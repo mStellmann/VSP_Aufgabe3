@@ -24,7 +24,7 @@ public class ObjectServerThread extends Thread {
 
     @Override
     public void run() {
-        while (true)
+//        while (true)
         try {
             Object requestObject = connection.receiveObject();
             log.info("Received Object");
