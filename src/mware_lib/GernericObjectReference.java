@@ -42,10 +42,10 @@ public class GernericObjectReference {
      * @return The returnvalue of the invoked remote method.
      * @throws RuntimeException If something went wrong.
      */
-    public Response invokeRemoteMethod(String methodName, Class[] argumentClasses, Object[] arguments) throws RuntimeException {
+    public Response invokeRemoteMethod(String methodName, Object[] arguments) throws RuntimeException {
         try {
             ObjectClient client = new ObjectClient(hostname, port);
-            client.sendObject(new Request(name, methodName, argumentClasses, arguments));
+            client.sendObject(new Request(name, methodName, arguments));
             return (Response) client.receiveObject();
 
         } catch (IOException e) {

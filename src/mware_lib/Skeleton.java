@@ -24,22 +24,7 @@ public class Skeleton {
      * @param arguments       Arguments of the invoked method.
      * @return Response-Object with the result of the invoked method.
      */
-//    public Response invokeMethod(String methodName, Class[] argumentClasses, Object[] arguments) {
-//        try {
-//            System.out.println("--- invoke on Server ---");
-//            Method method = servant.getClass().getMethod(methodName, argumentClasses);
-//            Object result = method.invoke(servant, arguments);
-//            return new Response(true, result, null);
-//
-//        } catch (NoSuchMethodException e) {
-//            return new Response(false, null, new RuntimeException("NoSuchMethodException"));
-//        } catch (InvocationTargetException e) {
-//            return new Response(false, null, new RuntimeException("InvocationTargetException"));
-//        } catch (IllegalAccessException e) {
-//            return new Response(false, null, new RuntimeException("IllegalAccessException"));
-//        }
-//    }
-    public Response invokeMethod(String methodName, Class[] argumentClasses, Object[] arguments) {
+    public Response invokeMethod(String methodName, Object[] arguments) {
         Object result = null;
         boolean isCorrect = true;
         RuntimeException exception = null;
@@ -76,7 +61,7 @@ public class Skeleton {
                 case "deposit":
                     try {
                         ((TransactionImplBase) servant).deposit((String) arguments[0], (double) arguments[1]);
-                    } catch (InvalidParamException e) {
+                    } catch (Exception e) {
                         exception = new RuntimeException(e.getMessage());
                         isCorrect = false;
                     }
@@ -84,10 +69,7 @@ public class Skeleton {
                 case "withdraw":
                     try {
                         ((TransactionImplBase) servant).withdraw((String) arguments[0], (double) arguments[1]);
-                    } catch (InvalidParamException e) {
-                        exception = new RuntimeException(e.getMessage());
-                        isCorrect = false;
-                    } catch (OverdraftException e) {
+                    } catch (Exception e) {
                         exception = new RuntimeException(e.getMessage());
                         isCorrect = false;
                     }
@@ -95,7 +77,7 @@ public class Skeleton {
                 case "getBalance":
                     try {
                         ((TransactionImplBase) servant).getBalance((String) arguments[0]);
-                    } catch (InvalidParamException e) {
+                    } catch (Exception e) {
                         exception = new RuntimeException(e.getMessage());
                         isCorrect = false;
                     }
