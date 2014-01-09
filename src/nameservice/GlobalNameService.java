@@ -99,7 +99,16 @@ class GlobalNameServiceThread extends Thread {
 
             } catch (IOException e) {
                 log.log(Level.SEVERE, "Received message problem", e);
+                break;
+            } catch (NullPointerException e) {
+                log.log(Level.SEVERE, "Connection closed", e);
+                break;
             }
+        }
+        try {
+            connection.close();
+        } catch (IOException e) {
+            e.printStackTrace();  // TODO Exceptionhandling
         }
     }
 }
