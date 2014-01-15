@@ -16,7 +16,7 @@ public class AccountStub extends AccountImplBase {
 
     @Override
     public void transfer(double amount) throws RuntimeException {
-        Response response = gernericObjectReference.invokeRemoteMethod("transfer", new Object[]{amount});
+        Response response = gernericObjectReference.invokeRemoteMethod("transfer", new Class[]{double.class}, new Object[]{amount});
 
         if (!response.isCorrect())
             throw response.getException();
@@ -24,7 +24,7 @@ public class AccountStub extends AccountImplBase {
 
     @Override
     public double getBalance() {
-        Response response = gernericObjectReference.invokeRemoteMethod("getBalance", new Object[]{});
+        Response response = gernericObjectReference.invokeRemoteMethod("getBalance", new Class[]{}, new Object[]{});
 
         if (!response.isCorrect())
             throw response.getException();

@@ -10,12 +10,13 @@ public class Request implements Serializable {
     private final String objectRefName;
     private final String methodName;
     private final Object[] arguments;
+    private final Class[] argumentClasses;
 
-    public Request(String objectRefName, String methodName, Object[] arguments) {
+    public Request(String objectRefName, String methodName, Class[] argumentClasses, Object[] arguments) {
         this.objectRefName = objectRefName;
         this.methodName = methodName;
         this.arguments = arguments;
-
+        this.argumentClasses = argumentClasses;
     }
 
     public String getObjectRefName() {
@@ -29,4 +30,6 @@ public class Request implements Serializable {
     public Object[] getArguments() {
         return arguments;
     }
+
+    public Class[] getArgumentClasses() {  return argumentClasses; }
 }

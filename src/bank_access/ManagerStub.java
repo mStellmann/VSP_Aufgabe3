@@ -17,7 +17,7 @@ public class ManagerStub extends ManagerImplBase {
     @Override
     public String createAccount(String owner, String branch) {
         System.out.println("--- invoke on client ---");
-        Response response = gernericObjectReference.invokeRemoteMethod("createAccount", new Object[]{owner, branch});
+        Response response = gernericObjectReference.invokeRemoteMethod("createAccount", new Class[]{String.class, String.class}, new Object[]{owner, branch});
         System.out.println("--- response on client ---");
         if (!response.isCorrect())
             throw response.getException();

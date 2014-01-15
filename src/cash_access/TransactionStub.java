@@ -16,7 +16,7 @@ public class TransactionStub extends TransactionImplBase {
 
     @Override
     public void deposit(String accountId, double amount) throws InvalidParamException {
-        Response response = gernericObjectReference.invokeRemoteMethod("deposit", new Object[]{accountId, amount});
+        Response response = gernericObjectReference.invokeRemoteMethod("deposit", new Class[]{String.class, double.class}, new Object[]{accountId, amount});
 
         if (!response.isCorrect())
             throw response.getException();
@@ -24,7 +24,7 @@ public class TransactionStub extends TransactionImplBase {
 
     @Override
     public void withdraw(String accountId, double amount) throws InvalidParamException, OverdraftException {
-        Response response = gernericObjectReference.invokeRemoteMethod("withdraw", new Object[]{accountId, amount});
+        Response response = gernericObjectReference.invokeRemoteMethod("withdraw", new Class[]{String.class, double.class}, new Object[]{accountId, amount});
 
         if (!response.isCorrect())
             throw response.getException();
@@ -32,7 +32,7 @@ public class TransactionStub extends TransactionImplBase {
 
     @Override
     public double getBalance(String accountId) throws InvalidParamException {
-        Response response = gernericObjectReference.invokeRemoteMethod("getBalance", new Object[]{accountId});
+        Response response = gernericObjectReference.invokeRemoteMethod("getBalance", new Class[]{String.class}, new Object[]{accountId});
 
         if (!response.isCorrect())
             throw response.getException();
