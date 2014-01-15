@@ -5,6 +5,7 @@ import communication.ObjectConnection;
 import communication.ObjectServer;
 
 import java.io.IOException;
+import java.net.SocketException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,6 +53,7 @@ class NameServiceImpl extends NameService {
                                 (new ObjectServerThread(connection, skeletonMap)).start();
                             } catch (IOException e) {
                                 log.log(Level.SEVERE, "connection error", e);
+                                break;
                             }
                         }
                     }
