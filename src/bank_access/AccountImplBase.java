@@ -12,7 +12,7 @@ public abstract class AccountImplBase {
     private static final Logger log = Logger.getLogger(AccountImplBase.class.getName());
 
     @SuppressWarnings("unused")
-    public abstract void transfer(double amount) throws Exception;
+    public abstract void transfer(double amount) throws OverdraftException;
 
     @SuppressWarnings("unused")
     public abstract double getBalance();

@@ -1,5 +1,6 @@
 package mware_lib;
 
+import javax.xml.transform.sax.SAXSource;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -25,6 +26,7 @@ public class Skeleton {
         try {
             System.out.println("--- invoke on Server ---");
             Method method = servant.getClass().getMethod(methodName, argumentClasses);
+
             method.setAccessible(true);
             Object result = method.invoke(servant, arguments);
             return new Response(true, result, null);
@@ -32,7 +34,7 @@ public class Skeleton {
         } catch (NoSuchMethodException e) {
             return new Response(false, null, new RuntimeException("NoSuchMethodException"));
         } catch (InvocationTargetException e) {
-            return new Response(false, null, new RuntimeException("InvocationTargetException"));
+            return new Response(false, null, (Exception) e.getTargetException());
         } catch (IllegalAccessException e) {
             return new Response(false, null, new RuntimeException("IllegalAccessException"));
         }

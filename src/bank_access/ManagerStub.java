@@ -19,9 +19,9 @@ public class ManagerStub extends ManagerImplBase {
         System.out.println("--- invoke on client ---");
         Response response = gernericObjectReference.invokeRemoteMethod("createAccount", new Class[]{String.class, String.class}, new Object[]{owner, branch});
         System.out.println("--- response on client ---");
-        if (!response.isCorrect())
-            throw response.getException();
-        else
+//        if (!response.isCorrect())
+////            throw response.getException();
+//        else
             return (String) response.getReturnValue();
     }
 }
